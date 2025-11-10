@@ -1,12 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Product } from './product.entity';
 
 @Entity()
 export class Variant {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
-  product_id: string;
+  product_id: number;
 
   @Column({ nullable: true })
   size: string;
@@ -22,4 +23,9 @@ export class Variant {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
+
+
+  @ManyToOne(() => Product, (product) => product.variants)
+  @JoinColumn({ name: 'product_id' }) 
+  product: Product;
 }
