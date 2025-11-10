@@ -1,9 +1,9 @@
-import { iResponse } from "@interface/requestOption";
-import { RequestOptions } from "http";
+import { RequestOptions, iResponse } from '@interface/requestOption';
+import { API_URL } from '@constants/baseURLs';
+
 
 async function apiCall(
   options: RequestOptions,
-  url: string
 ): Promise<iResponse> {
   const { path, method, headers = {}, body, params } = options;
 
@@ -15,7 +15,13 @@ async function apiCall(
     },
   };
 
-  let fullUrl = `${url}${path}`;
+
+   if (body) {
+    fetchOptions.body = JSON.stringify(body);
+  } 
+
+  
+  let fullUrl = `${API_URL}${path}`;
   if (params) {
     fullUrl += `?${new URLSearchParams(params).toString()}`;
   }
