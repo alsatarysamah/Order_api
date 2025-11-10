@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsIn, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AuthTokenDto {
@@ -17,4 +17,13 @@ export class AuthTokenDto {
   @IsString()
   @MinLength(8, { message: 'Password must be at least 8 characters' })
   password: string;
+
+    @ApiProperty({
+    description: 'User role',
+    example: 'admin',
+    enum: ['admin', 'user'],
+  })
+  @IsString()
+  @IsIn(['admin', 'user'], { message: 'Role must be either admin or user' })
+  role: 'admin' | 'user';
 }

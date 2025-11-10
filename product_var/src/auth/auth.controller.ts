@@ -11,7 +11,7 @@ export class AuthController {
   @ApiBody({ type: AuthTokenDto })
   @UsePipes(new ValidationPipe())
   async getToken(@Body() body: AuthTokenDto) {
-    const { username, password } = body;
-    return this.authService.generateToken(username, password);
+    const { username, password,role } = body;
+    return this.authService.generateToken(username, password,role);
   }
 }
