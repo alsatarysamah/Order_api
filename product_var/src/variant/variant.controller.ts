@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Query } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { VariantsService } from './variant.service';
 import { CreateVariantDto } from './DTO/variant.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../auth/admin.guard';
+import { Variant } from 'src/entities/variant.entity';
 
 @ApiTags('variants')
 @Controller('variants')
@@ -11,10 +12,18 @@ export class VariantController {
   constructor(private readonly variantsService: VariantsService) {}
 
 
-  @Get()
-  @ApiOperation({ summary: 'Get all variants' })
-  async getAll() {
-    return this.variantsService.findAll();
+ @Get()
+  @ApiOperation({ summary: 'Get all variants with pagination' })
+  @ApiQuery({ name: 'offset', required: false, type: Number, example: 0 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
+  async getAll(
+    @Query('offset') offset = 0,
+    @Query('limit') limit = 10,
+  ): Promise<{ data: Variant[]; total: number; offset: number; limit: number }> {
+    const offsetNum = Number(offset);
+    const limitNum = Number(limit) || 10; 
+
+    return this.variantsService.findAllPaginated(offsetNum, limitNum);
   }
 
   @Get(':id')

@@ -12,17 +12,27 @@ export class VariantsService {
   ) {}
 
   // Get all variants
-  async findAll(): Promise<Variant[]> {
-    return this.variantRepository.find({
-      relations: ['product'],
+  async findAllPaginated(offset: number, limit: number) {
+    const [data, total] = await this.variantRepository.findAndCount({
+       
+      skip: offset,
+      take: limit,
+      order: { id: 'ASC' },
     });
+
+    return {
+      data,
+      total,
+      offset,
+      limit,
+    };
   }
 
   // Get variant by ID
   async findById(id: number): Promise<Variant> {
     const variant = await this.variantRepository.findOne({
       where: { id },
-      relations: ['product'],
+       
     });
 
     if (!variant) {
@@ -39,7 +49,7 @@ export class VariantsService {
 
   // Update a variant
   async update(id: number, dto: Partial<CreateVariantDto>): Promise<Variant> {
-    const variant = await this.findById(id); 
+    const variant = await this.findById(id);
     Object.assign(variant, dto);
     return this.variantRepository.save(variant);
   }
