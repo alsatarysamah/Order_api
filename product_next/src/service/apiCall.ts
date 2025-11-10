@@ -1,42 +1,33 @@
-import { RequestOptions, iResponse } from '@interface/requestOption';
-import { API_URL } from '@constants/baseURLs';
+import axios, { AxiosRequestConfig } from "axios";
+import { RequestOptions, iResponse } from "@interface/requestOption";
+import { API_URL } from "@constants/baseURLs";
 
+async function apiCall(options: RequestOptions): Promise<iResponse> {
+  const { path, method, body, params } = options;
 
-async function apiCall(
-  options: RequestOptions,
-): Promise<iResponse> {
-  const { path, method, headers = {}, body, params } = options;
-
-  const fetchOptions: RequestInit = {
+  const config: AxiosRequestConfig = {
+    url: `${API_URL}${path}`,
     method,
-    headers: {
-      "Content-Type": "application/json",
-      ...(headers as Record<string, string>),
-    },
+    data: body,
+    params,
   };
 
+  try {
+    const response = await axios(config);
 
-   if (body) {
-    fetchOptions.body = JSON.stringify(body);
-  } 
-
-  
-  let fullUrl = `${API_URL}${path}`;
-  if (params) {
-    fullUrl += `?${new URLSearchParams(params).toString()}`;
-  }
-  const response = await fetch(fullUrl, fetchOptions);
-  
-  if (!response.ok) {
+    return {
+      hasErrors: false,
+      data: response.data,
+    } as iResponse;
+  } catch (error: any) {
     return {
       hasErrors: true,
-      errors: response?.data.message || response?.data.messages,
+      errors:
+        error.response?.data?.message ||
+        error.response?.data?.errors ||
+        error.message,
     } as iResponse;
   }
-
-  return {
-    hasErrors: false,
-    data:response?.data,
-  } as iResponse;
 }
-export default apiCall
+
+export default apiCall;

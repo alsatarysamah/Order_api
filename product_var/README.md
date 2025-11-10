@@ -65,15 +65,19 @@ yarn install
 3. **Create `.env` file** in the root directory:
 
 ```env
-PORT=3000
 DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=your_password
-DB_NAME=product_db
+DB_PORT=5433
+DB_USERNAME=postgres
+DB_PASSWORD=1234
+DB_NAME=sales
 
-JWT_SECRET=your_jwt_secret
+
+PORT=4000
+
+JWT_SECRET=mySecretKey
 JWT_EXPIRES_IN=1d
+
+FE_URL=http://localhost:3000
 ```
 
 4. **Create database** in PostgreSQL:
