@@ -11,47 +11,57 @@ export class VariantsService {
     private readonly variantRepository: Repository<Variant>,
   ) {}
 
-  // Get all variants
-  async findAllPaginated(offset: number, limit: number) {
+  async findAllByProductId(productId: number, offset: number, limit: number) {
     const [data, total] = await this.variantRepository.findAndCount({
-       
+      where: { product_id: productId },
       skip: offset,
       take: limit,
       order: { id: 'ASC' },
     });
 
-    return data
+    if (data.length === 0) {
+      throw new NotFoundException(
+        `No variants found for product with id ${productId}`,
+      );
+    }
+
+    return data;
   }
 
-  // Get variant by ID
-  async findById(id: number): Promise<Variant> {
+  async findByIdAndProduct(productId: number, id: number): Promise<Variant> {
     const variant = await this.variantRepository.findOne({
-      where: { id },
-       
+      where: { id, product_id: productId },
     });
 
     if (!variant) {
-      throw new NotFoundException(`Variant with id ${id} not found`);
+      throw new NotFoundException(
+        `Variant with id ${id} not found for product ${productId}`,
+      );
     }
     return variant;
   }
 
-  // Create a new variant
-  async create(dto: CreateVariantDto): Promise<Variant> {
-    const variant = this.variantRepository.create(dto);
+  async create(productId: number, dto: CreateVariantDto): Promise<Variant> {
+    const variant = this.variantRepository.create({
+      ...dto,
+      product_id: productId,
+    });
     return this.variantRepository.save(variant);
   }
 
-  // Update a variant
-  async update(id: number, dto: Partial<CreateVariantDto>): Promise<Variant> {
-    const variant = await this.findById(id);
+  // Update a variant for a specific product
+  async update(
+    productId: number,
+    id: number,
+    dto: Partial<CreateVariantDto>,
+  ): Promise<Variant> {
+    const variant = await this.findByIdAndProduct(productId, id);
     Object.assign(variant, dto);
     return this.variantRepository.save(variant);
   }
 
-  // Delete a variant
-  async remove(id: number): Promise<void> {
-    const variant = await this.findById(id);
+  async remove(productId: number, id: number): Promise<void> {
+    const variant = await this.findByIdAndProduct(productId, id);
     await this.variantRepository.remove(variant);
   }
 }
