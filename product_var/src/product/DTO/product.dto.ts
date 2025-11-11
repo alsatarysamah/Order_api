@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNumber, Min } from 'class-validator';
 
 export class CreateProductDto {
   @ApiProperty({ description: 'Name of the product', example: 'Laptop' })
@@ -9,6 +10,11 @@ export class CreateProductDto {
     example: 'A high-performance gaming laptop',
   })
   description?: string;
+
+
+    @IsNumber({}, { message: 'price must be a number' })
+    @Min(0, { message: 'price must be at least 0' })
+    price: number;
 
   @ApiPropertyOptional({
     description: 'Image URL of the product',
@@ -26,6 +32,14 @@ export class UpdateProductDto {
     example: 'A high-performance gaming laptop',
   })
   description?: string;
+
+ @ApiPropertyOptional({
+    description: 'Optional price of the product',
+    example: 54,
+  })
+   @IsNumber({}, { message: 'price must be a number' })
+    @Min(0, { message: 'price must be at least 0' })
+    price: number;
 
   @ApiPropertyOptional({
     description: 'Image URL of the product',

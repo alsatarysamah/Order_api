@@ -17,7 +17,10 @@ export class Product {
 
   @Column({ nullable: true })
   imageURL: string;
-  
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  price: number;
+
   @OneToMany(() => Variant, (variant) => variant.product)
   variants: Variant[];
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from '../entities/product.entity';
 import { CreateProductDto, UpdateProductDto } from './DTO/product.dto';
+import { mapProducts } from './product.mapper';
 
 @Injectable()
 export class ProductsService {
@@ -12,8 +13,11 @@ export class ProductsService {
   ) {}
 
   // GET all products
-  async findAll(): Promise<Product[]> {
-    return await this.productRepository.find({relations:['variants']});
+  async findAll(): Promise<any[]> {
+    const products = await this.productRepository.find({
+      relations: ['variants'],
+    });
+    return mapProducts(products);
   }
 
   // GET product by ID
