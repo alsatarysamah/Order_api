@@ -1,5 +1,5 @@
 import apiCall from "./apiCall";
-import { IVariantResponse } from "../interface/variant";
+import { IVariant } from "../interface/variant";
 
 export const getVariantByIdHandler = async (id: number) => {
   const response = await apiCall({
@@ -8,7 +8,7 @@ export const getVariantByIdHandler = async (id: number) => {
   });
 
   if (response.data) {
-    return response.data as IVariantResponse;
+    return response.data as IVariant;
   } else if (response.hasErrors) {
     return response.errors;
   }
@@ -21,7 +21,7 @@ export const getAllVariantsHandler = async () => {
   });
 
   if (response.data) {
-    return response.data as IVariantResponse[];
+    return response.data as IVariant[];
   } else if (response.hasErrors) {
     return response.errors;
   }
