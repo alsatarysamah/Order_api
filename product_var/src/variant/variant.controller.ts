@@ -19,7 +19,7 @@ export class VariantController {
   async getAll(
     @Query('offset') offset = 0,
     @Query('limit') limit = 10,
-  ): Promise<{ data: Variant[]; total: number; offset: number; limit: number }> {
+  ): Promise< Variant[]> {
     const offsetNum = Number(offset);
     const limitNum = Number(limit) || 10; 
 

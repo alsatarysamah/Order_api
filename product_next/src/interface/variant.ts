@@ -12,6 +12,8 @@ export interface IVariant {
 
 
 export interface IVariantResponse {
+  id: string;
+  size: string;
   success: boolean;
   message?: string;
   data?: IVariant | IVariant[];

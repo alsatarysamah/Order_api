@@ -20,12 +20,7 @@ export class VariantsService {
       order: { id: 'ASC' },
     });
 
-    return {
-      data,
-      total,
-      offset,
-      limit,
-    };
+    return data
   }
 
   // Get variant by ID
