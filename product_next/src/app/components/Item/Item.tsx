@@ -1,18 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getAllVariantsHandler } from "../../../service/variant";
-import { IVariant } from "@interface/variant";
 import ItemCard from "../ItemCard/ItemCard";
+import { getAllProductsHandler } from "../../../service/product";
+import { IProduct } from "@interface/product";
 
 function Item() {
-  const [items, setItems] = useState<IVariant[] | []>([]);
+  const [items, setItems] = useState<IProduct[] | []>([]);
 
   const fetchAllItem = async () => {
-    const dbItems = await getAllVariantsHandler();
+    const dbItems = await getAllProductsHandler();
 
     if (Array.isArray(dbItems)) {
-      setItems(dbItems as IVariant[] );
-      console.log(" Variants fetched:", dbItems);
+      setItems(dbItems as IProduct[]);
+      console.log(" product fetched:", dbItems);
     } else {
       console.error(" Error fetching variants:", dbItems);
     }
@@ -23,13 +23,9 @@ function Item() {
   }, []);
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {items?.length > 0 &&
-        items?.map((item) => (
-          <div key={item?.id}>
-            <ItemCard item={item} />
-          </div>
-        ))}
+        items.map((item) => <ItemCard key={item.id} item={item} />)}
     </div>
   );
 }

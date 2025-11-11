@@ -1,23 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
-import { getAllVariantsHandler } from "../../../service/variant";
-
-
 
 export default function Header() {
+  // const fetchallvar = async () => {
+  //   const x = await getAllVariantsHandler();
 
+  //   console.log("🚀 ~ Header.tsx ~ fetchallvar ~ x:", x);
 
-  const fetchallvar=async()=>{
+  //   const y = await createOrderHandler([
+  //     { item_id: 1, quantity: 2, price: 9.99 },
+  //     { item_id: 3, quantity: 1, price: 19.99 },
+  //   ]);
 
-    const x = await getAllVariantsHandler()
-
-    console.log("🚀 ~ Header.tsx ~ fetchallvar ~ x:", x)
-
-  }
-  useEffect(() => {
-    fetchallvar()
-  }, []);
+  //   console.log("🚀 ~ Header.tsx ~ fetchallvar ~ y:", y);
+  // };
+  // useEffect(() => {
+  //   fetchallvar();
+  // }, []);
   return (
     <header className="w-full bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -25,9 +24,7 @@ export default function Header() {
           💄 Cozmatee
         </h1>
 
-        <div className="flex space-x-4">
-
-        </div>
+        <div className="flex space-x-4"></div>
       </div>
     </header>
   );
