@@ -1,21 +1,18 @@
-import { useState } from "react";
-
 interface ColorProps {
   color: string;
+  selectedColor: string;
+  setSelectedColor:React.Dispatch<React.SetStateAction<string>>;
 }
 
-function Color({ color }: ColorProps) {
-  const [isSelected, setIsSelected] = useState(false);
-
+function Color({ color, selectedColor, setSelectedColor }: ColorProps) {
   const colorHandler = () => {
-    setIsSelected(!isSelected);
-    console.log("Selected color:", color);
+    setSelectedColor(color);
   };
 
   return (
     <div
       className={`inline-block rounded-full px-2 py-1 text-sm font-semibold text-gray-700 mr-2 mb-1 cursor-pointer ${
-        isSelected ? "bg-purple-400 text-white" : "bg-gray-200"
+        selectedColor === color ? "bg-purple-400 text-white" : "bg-gray-200"
       }`}
       onClick={colorHandler}
     >
