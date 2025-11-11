@@ -20,8 +20,10 @@ import { CreateVariantDto } from './DTO/variant.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AdminGuard } from '../auth/admin.guard';
 import { Variant } from 'src/entities/variant.entity';
+import { ProductExistsGuard } from 'guards/product-exists.guard';
 
 @ApiTags('variants')
+@UseGuards(ProductExistsGuard)
 @Controller(':productId/variants')
 export class VariantController {
   constructor(private readonly variantsService: VariantsService) {}
