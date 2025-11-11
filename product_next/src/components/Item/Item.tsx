@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import ItemCard from "../ItemCard/ItemCard";
-import { getAllProductsHandler } from "../../../service/product";
 import { IProduct } from "@interface/product";
+import { getAllProductsHandler } from "../../service/product";
 
 function Item() {
   const [items, setItems] = useState<IProduct[] | []>([]);

@@ -16,7 +16,6 @@ function ItemCard({ item }: { item: IProduct }) {
   const [quantity, setQuantity] = useState<number>(0);
 
   const updateCart = () => {
-    console.log("hiiiiii");
 
     const newItemCart = itemMapper(item, selectedColor, selectedSize);
 
@@ -24,6 +23,17 @@ function ItemCard({ item }: { item: IProduct }) {
 
     addOrUpdateItem(newItemCart, quantity);
   };
+
+
+  const readFromLocalstorage=()=>{
+    const item = localStorage.getItem("cart-storage")
+
+    console.log("🚀 ~ ItemCard.tsx ~ readFromLocalstorage ~ item:", item)
+
+  }
+  useEffect(() => {
+    readFromLocalstorage()
+  }, []);
   useEffect(() => {
     updateCart();
   }, [selectedColor, selectedSize, quantity]);
