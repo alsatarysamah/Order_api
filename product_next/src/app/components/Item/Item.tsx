@@ -1,16 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getAllVariantsHandler } from "../../../service/variant";
-import { IVariantResponse } from "@interface/variant";
+import { IVariant } from "@interface/variant";
+import ItemCard from "../ItemCard/ItemCard";
 
 function Item() {
-  const [items, setItems] = useState<IVariantResponse[] | []>([]);
+  const [items, setItems] = useState<IVariant[] | []>([]);
 
   const fetchAllItem = async () => {
     const dbItems = await getAllVariantsHandler();
 
     if (Array.isArray(dbItems)) {
-      setItems(dbItems as IVariantResponse[]);
+      setItems(dbItems as IVariant[] );
       console.log(" Variants fetched:", dbItems);
     } else {
       console.error(" Error fetching variants:", dbItems);
@@ -23,11 +24,12 @@ function Item() {
 
   return (
     <div className="flex flex-wrap gap-2">
-      {items.map((item) => (
-        <div key={item?.id} className="p-2 border rounded">
-          {item?.size}
-        </div>
-      ))}
+      {items?.length > 0 &&
+        items?.map((item) => (
+          <div key={item?.id}>
+            <ItemCard item={item} />
+          </div>
+        ))}
     </div>
   );
 }

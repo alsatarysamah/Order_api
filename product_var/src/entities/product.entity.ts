@@ -15,7 +15,9 @@ export class Product {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-
+  @Column({ nullable: true })
+  imageURL: string;
+  
   @OneToMany(() => Variant, (variant) => variant.product)
   variants: Variant[];
 }
