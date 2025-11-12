@@ -1,11 +1,17 @@
+import { CartItem } from "@interface/cartItem";
+import { useCartStore } from "@store/cart";
+
 interface ColorProps {
   color: string;
   selectedColor: string;
   setSelectedColor:React.Dispatch<React.SetStateAction<string>>;
+  newItemCart:CartItem
 }
 
-function Color({ color, selectedColor, setSelectedColor }: ColorProps) {
+function Color({ color, selectedColor, setSelectedColor,newItemCart }: ColorProps) {
+  const updateSelectedColor=useCartStore(state=>state.updateSelectedColor)
   const colorHandler = () => {
+    updateSelectedColor(newItemCart,color)
     setSelectedColor(color);
   };
 

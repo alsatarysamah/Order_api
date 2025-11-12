@@ -1,11 +1,18 @@
+import { CartItem } from "@interface/cartItem";
+import { useCartStore } from "@store/cart";
+
 interface SizeProps {
   size: string;
   selectedSize: string;
   setSelectedSize: React.Dispatch<React.SetStateAction<string>>;
+  newItemCart: CartItem;
 }
 
-function Size({ size, selectedSize, setSelectedSize }: SizeProps) {
+function Size({ size, selectedSize, setSelectedSize, newItemCart }: SizeProps) {
+  const updateSelectedSize = useCartStore((state) => state.updateSelectedSize);
+
   const sizeHandler = () => {
+    updateSelectedSize(newItemCart, size);
     setSelectedSize(size);
   };
 

@@ -2,10 +2,11 @@ export const itemMapper = (
   item,
   selectedColor = "",
   selectedSize = "",
+  quantity = 1
 ) => {
   const { id, prices, imageURL, name } = item;
 
-  console.log("🚀 ~ itemMapper.ts ~ itemMapper ~ item:", item)
+  console.log("🚀 ~ itemMapper.ts ~ itemMapper ~ item:", item);
 
   return {
     id,
@@ -14,5 +15,6 @@ export const itemMapper = (
     prices,
     selectedColor,
     selectedSize,
+    quantity,
   };
 };
