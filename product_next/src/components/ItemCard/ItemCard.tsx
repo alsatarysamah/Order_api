@@ -15,7 +15,7 @@ function ItemCard({ item }: { item: IProduct }) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
 
-  const newItemCart = itemMapper(item, selectedColor, selectedSize);
+  const newItemCart = itemMapper(item, selectedColor, selectedSize,quantity);
 
   useEffect(() => {
     const cartItem = cart.find(

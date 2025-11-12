@@ -14,16 +14,16 @@ This is a **NestJS API** for managing Products and their Variants. It includes:
 - Public endpoints:  
   - `GET /products` – list all products  
   - `GET /products/:id` – get product by ID  
-  - `GET /variants` – list all variants  
-  - `GET /variants/:id` – get variant by ID
+  - `GET :productId/variants` – list all variants  
+  - `GET :productId/variants/:id` – get variant by ID
 
 - Protected endpoints (Admin only, JWT required):  
   - `POST /products` – create product  
   - `PUT /products/:id` – update product  
   - `DELETE /products/:id` – delete product  
-  - `POST /variants` – create variant  
-  - `PUT /variants/:id` – update variant  
-  - `DELETE /variants/:id` – delete variant
+  - `POST :productId/variants` – create variant  
+  - `PUT :productId/variants/:id` – update variant  
+  - `DELETE :productId/variants/:id` – delete variant
 
 ---
 
@@ -71,7 +71,6 @@ DB_USERNAME=postgres
 DB_PASSWORD=1234
 DB_NAME=sales
 
-
 PORT=4000
 
 JWT_SECRET=mySecretKey
@@ -97,7 +96,6 @@ TypeOrmModule.forRoot({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-
 })
 ```
 
@@ -174,4 +172,3 @@ src/
 │  └─ dto/
 ├─ main.ts
 ```
-

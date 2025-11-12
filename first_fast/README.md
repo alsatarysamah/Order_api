@@ -1,6 +1,6 @@
 # 🛍️ FastAPI Order Management App
 
-This project is a simple **FastAPI** application that manages **orders**, **items**, and **order items** using **SQLAlchemy ORM** and **PostgreSQL**.  
+This project is a simple **FastAPI** application that manages **orders** and their **items** using **SQLAlchemy ORM** and **PostgreSQL**.  
 It supports creating orders with multiple items, calculating total amount and tax automatically, and viewing all orders or a specific one.
 
 ---
@@ -29,7 +29,7 @@ It supports creating orders with multiple items, calculating total amount and ta
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/samahsatary/fastapi-orders.git
+git clone https://github.com/alsatarysamah/Order_api.git
 cd first_fast
 ```
 
@@ -76,7 +76,6 @@ app/
 │   └── db.py                # Database setup (engine, session, Base)
 ├── models/
 │   ├── order.py             # Order model
-│   ├── item.py              # Item model
 │   └── order_item.py        # Bridge table (Order ↔ Item)
 ├── schemas/
 │   ├── order_schema.py      # Pydantic schemas for orders
@@ -85,8 +84,7 @@ app/
 │   ├── order_crud.py        # CRUD for orders
 │   └── order_item_crud.py   # CRUD for order items
 ├── routers/
-│   ├── order_router.py      # FastAPI endpoints for orders
-│   └── item_router.py       # FastAPI endpoints for items
+│   └── order_router.py      # FastAPI endpoints for orders
 └── utils/
     └── order_utils.py       # Helper functions (e.g., tax calculation)
 ```
@@ -101,12 +99,12 @@ app/
 ```json
 [
   {
-    "item_id": 1,
+    "product_id": 1,
     "quantity": 2,
     "price": 10.0
   },
   {
-    "item_id": 2,
+    "product_id": 2,
     "quantity": 1,
     "price": 15.0
   }
@@ -168,7 +166,7 @@ def calculate_order_totals(order_items):
     return {"total_amount": total_amount, "tax": tax}
 ```
 
-
+---
 
 ## 🧑‍💻 Author
 **Samah Alsatary**  

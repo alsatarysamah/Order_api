@@ -1,7 +1,7 @@
 // interface/order.ts
 
 export interface IOrderItem {
-  item_id: number;
+  product_id: number;
   quantity: number;
   price: number;
 }

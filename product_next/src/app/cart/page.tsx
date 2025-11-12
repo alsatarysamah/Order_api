@@ -26,7 +26,7 @@ export default function CartPage() {
     }
 
     const orderItems: IOrderItem[] = cart.map((item) => ({
-      item_id: item.id,
+      product_id: item.id,
       quantity: item.quantity,
       price: parseFloat(item.prices),
     }));
@@ -34,7 +34,10 @@ export default function CartPage() {
     try {
       const response = await createOrderHandler(orderItems);
 
-      if (response) {
+      console.log("🚀 ~ page.tsx ~ checkoutHandle ~ response:", response)
+
+
+      if (response?.id) {
         alert(`✅ Order placed successfully! Order ID: ${response.id}`);
         clearCart();
       } else {
