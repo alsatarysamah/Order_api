@@ -4,11 +4,12 @@ import Size from "../Size/Size";
 import Color from "../Color/Color";
 import Counter from "../Counter/Counter";
 import { useEffect, useState } from "react";
-import { useCartStore } from "@store/cart";
 import { itemMapper } from "@utils/itemMapper";
+import { useCartStore } from "@store/cart"; // import your Zustand store
 
 function ItemCard({ item }: { item: IProduct }) {
-  const { imageURL, prices, colors, sizes, name } = item;
+  const { id, imageURL, prices, colors, sizes, name } = item;
+  const cart = useCartStore((state) => state.cart);
 
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -16,14 +17,16 @@ function ItemCard({ item }: { item: IProduct }) {
 
   const newItemCart = itemMapper(item, selectedColor, selectedSize);
 
-  const readFromLocalstorage = () => {
-    const item = localStorage.getItem("cart-storage");
-
-    console.log("🚀 ~ ItemCard.tsx ~ readFromLocalstorage ~ item:", item);
-  };
   useEffect(() => {
-    readFromLocalstorage();
-  }, []);
+    const cartItem = cart.find(
+      (c) => c.id === id
+    );
+    if (cartItem) {
+      setSelectedColor(cartItem.selectedColor || "");
+      setSelectedSize(cartItem.selectedSize || "");
+      setQuantity(cartItem.quantity || 1);
+    }
+  }, [cart, id]);
 
   return (
     <div className="w-full h-full rounded overflow-hidden shadow-lg p-3 flex flex-col hover:bg-slate-300">
