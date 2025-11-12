@@ -36,3 +36,10 @@ npm run dev
 Open http://localhost:3000
  with your browser to see the result.
 ```
+
+create .env File 
+```js
+
+NEXT_PUBLIC_API_URL=http://localhost:4000/
+NEXT_PUBLIC_API_ORDER_URL=http://localhost:8000/
+```
