@@ -6,14 +6,15 @@ import { useCartStore } from "@store/cart";
 
 export default function Header() {
   const cart = useCartStore((state) => state.cart);
-  // const itemCount = cart.reduce((total, item) => total + (item.quantity || 0), 0);
 
   return (
     <header className="w-full bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-blue-600 tracking-tight">
-          💄 Cozmatee
-        </h1>
+        <Link href="/" className="relative">
+          <h1 className="text-2xl font-bold text-blue-600 tracking-tight">
+            💄 Cozmatee
+          </h1>
+        </Link>
 
         <div className="flex items-center space-x-4">
           <Link href="/cart" className="relative">
