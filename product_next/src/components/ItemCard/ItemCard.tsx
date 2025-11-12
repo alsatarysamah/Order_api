@@ -10,33 +10,21 @@ import { itemMapper } from "@utils/itemMapper";
 function ItemCard({ item }: { item: IProduct }) {
   const { imageURL, prices, colors, sizes, name } = item;
 
-  const addOrUpdateItem = useCartStore((state) => state.addOrUpdateItem);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedSize, setSelectedSize] = useState<string>("");
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
 
-  const updateCart = () => {
+  const newItemCart = itemMapper(item, selectedColor, selectedSize);
 
-    const newItemCart = itemMapper(item, selectedColor, selectedSize);
+  const readFromLocalstorage = () => {
+    const item = localStorage.getItem("cart-storage");
 
-    console.log("🚀 ~ ItemCard.tsx ~ updateCart ~ newItemCart:", newItemCart)
-
-    addOrUpdateItem(newItemCart, quantity);
+    console.log("🚀 ~ ItemCard.tsx ~ readFromLocalstorage ~ item:", item);
   };
-
-
-  const readFromLocalstorage=()=>{
-    const item = localStorage.getItem("cart-storage")
-
-    console.log("🚀 ~ ItemCard.tsx ~ readFromLocalstorage ~ item:", item)
-
-  }
   useEffect(() => {
-    readFromLocalstorage()
+    readFromLocalstorage();
   }, []);
-  useEffect(() => {
-    updateCart();
-  }, [selectedColor, selectedSize, quantity]);
+
   return (
     <div className="w-full h-full rounded overflow-hidden shadow-lg p-3 flex flex-col hover:bg-slate-300">
       <div className="relative w-full h-48">
@@ -62,6 +50,7 @@ function ItemCard({ item }: { item: IProduct }) {
                     color={color}
                     selectedColor={selectedColor}
                     setSelectedColor={setSelectedColor}
+                    newItemCart={newItemCart}
                   />
                 ))
               : "N/A"}
@@ -76,6 +65,7 @@ function ItemCard({ item }: { item: IProduct }) {
                     size={size}
                     selectedSize={selectedSize}
                     setSelectedSize={setSelectedSize}
+                    newItemCart={newItemCart}
                   />
                 ))
               : "N/A"}
@@ -86,7 +76,11 @@ function ItemCard({ item }: { item: IProduct }) {
           <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
             ${prices}
           </span>
-          <Counter item={item} quantity={quantity} setQuantity={setQuantity} />
+          <Counter
+            newItemCart={newItemCart}
+            quantity={quantity}
+            setQuantity={setQuantity}
+          />
         </div>
       </div>
     </div>

@@ -8,8 +8,8 @@ type CartStore = {
     item: Omit<CartItem, "quantity">,
     quantity?: number
   ) => void;
-  updateQuantity: (item: Omit<CartItem, "quantity">, quantity: number) => void;
-  removeItem: (item: Omit<CartItem, "quantity">) => void;
+  updateQuantity: (item: CartItem, quantity: number) => void;
+  removeItem: (item: CartItem) => void;
   clearCart: () => void;
   setCart: (cart: CartItem[]) => void;
   updateSelectedColor: (item: CartItem, selectedColor: string) => void;
@@ -74,38 +74,34 @@ export const useCartStore = create<CartStore>()(
         }),
 
       updateQuantity: (item, quantity) => {
-        if (quantity <= 0) {
-          get().removeItem(item);
-          return;
-        }
-
         set((state) => {
-          const index = state.cart.findIndex(
-            (i) =>
-              i.id === item.id &&
-              i.selectedColor === item.selectedColor &&
-              i.selectedSize === item.selectedSize
+          const selectedItemIndex = state.cart.findIndex(
+            (cartItem) => cartItem.id === item.id
           );
 
-          if (index === -1) return state;
+          console.log("🚀 ~ cart.ts ~ selectedItemIndex:", selectedItemIndex);
+
+          if (selectedItemIndex !== -1 && quantity <= 0) {
+            const updatedCart = state.cart.filter((i) => i.id !== item.id);
+            return { cart: updatedCart };
+          }
 
           const updatedCart = [...state.cart];
-          updatedCart[index].quantity = quantity;
+          item.quantity = quantity;
+          if (selectedItemIndex != -1) updatedCart[selectedItemIndex] = item;
+          else updatedCart.push(item);
+
           return { cart: updatedCart };
         });
       },
 
-      removeItem: (item) =>
-        set((state) => ({
-          cart: state.cart.filter(
-            (i) =>
-              !(
-                i.id === item.id &&
-                i.selectedColor === item.selectedColor &&
-                i.selectedSize === item.selectedSize
-              )
-          ),
-        })),
+      removeItem: (item) => {
+        set((state) => {
+          const updatedCart = state.cart.filter((i) => i.id !== item.id);
+
+          return { cart: updatedCart };
+        });
+      },
 
       clearCart: () => set({ cart: [] }),
       setCart: (cart) => set({ cart }),
