@@ -1,22 +1,13 @@
 "use client";
 
+import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
+import { useCartStore } from "@store/cart";
 
 export default function Header() {
-  // const fetchallvar = async () => {
-  //   const x = await getAllVariantsHandler();
+  const cart = useCartStore((state) => state.cart);
+  // const itemCount = cart.reduce((total, item) => total + (item.quantity || 0), 0);
 
-  //   console.log("🚀 ~ Header.tsx ~ fetchallvar ~ x:", x);
-
-  //   const y = await createOrderHandler([
-  //     { item_id: 1, quantity: 2, price: 9.99 },
-  //     { item_id: 3, quantity: 1, price: 19.99 },
-  //   ]);
-
-  //   console.log("🚀 ~ Header.tsx ~ fetchallvar ~ y:", y);
-  // };
-  // useEffect(() => {
-  //   fetchallvar();
-  // }, []);
   return (
     <header className="w-full bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -24,7 +15,16 @@ export default function Header() {
           💄 Cozmatee
         </h1>
 
-        <div className="flex space-x-4"></div>
+        <div className="flex items-center space-x-4">
+          <Link href="/cart" className="relative">
+            <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-blue-600 transition-colors" />
+            {cart?.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
+                {cart?.length}
+              </span>
+            )}
+          </Link>
+        </div>
       </div>
     </header>
   );
